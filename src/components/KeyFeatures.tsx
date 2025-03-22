@@ -1,11 +1,10 @@
-
 import { useEffect, useRef } from 'react';
-import { 
-  Ruler, 
-  Gauge, 
-  Sofa, 
-  Tablet, 
-  Star, 
+import {
+  Ruler,
+  Gauge,
+  Sofa,
+  Tablet,
+  Star,
   Ship
 } from 'lucide-react';
 
@@ -13,94 +12,87 @@ const features = [
   {
     icon: Ruler,
     title: "Sleek Design",
-    description: "Inspired by the iconic Lamborghini sports cars, this yacht features sharp lines, an aggressive stance, and a sleek, aerodynamic profile that cuts through the water with ease."
+    description: "Inspired by the iconic Lamborghini sports cars, this yacht features sharp lines and an aerodynamic profile."
   },
   {
     icon: Gauge,
     title: "Powerful Performance",
-    description: "Equipped with high-performance engines, the Lamborghini Yacht delivers exhilarating speed and agility, ensuring a smooth and powerful ride on the water."
+    description: "Powered by twin MAN V12 engines, it delivers 2,000hp and a top speed of 60 knots."
   },
   {
     icon: Sofa,
     title: "Luxurious Interiors",
-    description: "Step inside to discover a world of luxury, with plush seating, advanced entertainment systems, and top-of-the-line materials that reflect Lamborghini's commitment to excellence."
+    description: "Step inside to discover plush seating, carbon fiber finishes, and handcrafted Italian materials."
   },
   {
     icon: Tablet,
-    title: "State-of-the-Art Technology",
-    description: "Navigate the seas with precision thanks to cutting-edge technology, including advanced navigation systems, touch-screen controls, and customizable settings for an effortless journey."
+    title: "Advanced Technology",
+    description: "Integrated touchscreen controls, GPS systems, and marine-grade automation for seamless cruising."
   },
   {
     icon: Star,
-    title: "Exclusive Amenities",
-    description: "Enjoy bespoke services, including gourmet catering, a professional crew, and personalized experiences tailored to your preferences."
+    title: "Tailored Amenities",
+    description: "Experience elite services with custom itineraries, fine dining, and onboard entertainment."
   },
   {
     icon: Ship,
     title: "Unrivaled Comfort",
-    description: "The Lamborghini Yacht is designed with spacious living areas and ergonomic seating to ensure maximum comfort during your voyage, making it ideal for long journeys or leisurely cruises."
+    description: "Ergonomic layouts, climate control, and spacious lounges ensure a smooth ride."
   }
 ];
 
 const KeyFeatures = () => {
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         const [entry] = entries;
         if (entry.isIntersecting) {
-          const elements = entry.target.querySelectorAll('.feature-card');
-          elements.forEach((el, index) => {
+          const cards = entry.target.querySelectorAll('.feature-card');
+          cards.forEach((card, i) => {
             setTimeout(() => {
-              el.classList.add('appear');
-            }, index * 150);
+              card.classList.add('appear');
+            }, i * 100);
           });
         }
       },
       { threshold: 0.1 }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
   }, []);
 
   return (
-    <section id="key-features" ref={sectionRef} className="py-20 md:py-28 bg-luxury-black/60 relative overflow-hidden">
-      {/* Background elements */}
-      <div className="absolute top-1/4 right-0 w-80 h-80 rounded-full bg-luxury-gold/5 filter blur-3xl"></div>
-      <div className="absolute bottom-0 left-0 w-60 h-60 rounded-full bg-luxury-gold/5 filter blur-3xl"></div>
-      
+    <section id="features" ref={sectionRef} className="py-20 md:py-28 bg-luxury-black relative z-10">
       <div className="luxury-container">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-playfair font-bold gold-text mb-6">
-            Key Features of the Lamborghini Yacht
+        <div className="text-center mb-14">
+          <h2 className="text-3xl md:text-5xl font-playfair font-bold gold-text mb-4">
+            Why Choose Lamborghini Yacht
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            The Tecnomar for Lamborghini 63 combines Italian automotive excellence with maritime craftsmanship
+          <p className="text-gray-300 text-lg max-w-2xl mx-auto">
+            A seamless blend of speed, innovation, and Italian design philosophy.
           </p>
         </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => (
-            <div 
-              key={index} 
-              className="feature-card bg-luxury-black/40 rounded-lg p-6 border border-luxury-gold/20 hover:border-luxury-gold/60 transition-all duration-300 opacity-0 transform translate-y-8"
+            <div
+              key={index}
+              className="feature-card p-6 bg-luxury-black/60 rounded-2xl border border-luxury-gold/20 shadow-lg hover:shadow-luxury-gold/20 transition-all duration-300 transform opacity-0 translate-y-6"
             >
               <div className="flex items-center mb-4">
-                <div className="w-12 h-12 rounded-full neo-gold-blur flex items-center justify-center mr-4">
-                  <feature.icon className="text-luxury-gold" size={24} />
+                <div className="w-12 h-12 rounded-full bg-luxury-gold/10 flex items-center justify-center mr-4">
+                  <feature.icon size={24} className="text-luxury-gold" />
                 </div>
-                <h3 className="text-xl font-playfair font-semibold gold-text">{feature.title}</h3>
+                <h3 className="text-xl font-playfair gold-text font-semibold">
+                  {feature.title}
+                </h3>
               </div>
-              <p className="text-gray-300">{feature.description}</p>
+              <p className="text-gray-300 text-sm leading-relaxed">
+                {feature.description}
+              </p>
             </div>
           ))}
         </div>
